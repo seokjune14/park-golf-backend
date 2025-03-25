@@ -13,13 +13,20 @@ const getUsers = async (req, res) => {
 
 // 유저 등록
 const createUser = async (req, res) => {
-  const { name, phone, location } = req.body;
+  const { userName, userEmail, userPw, userinfo, userImg } = req.body;
   try {
     const [result] = await pool.query(
-      "INSERT INTO users (name, phone, location) VALUES (?, ?, ?)",
-      [name, phone, location]
+      "INSERT INTO users (userName, userEmail, userPw, userinfo, userImg) VALUES (?, ?, ?, ?, ?)",
+      [userName, userEmail, userPw, userinfo, userImg]
     );
-    res.status(201).json({ id: result.insertId, name, phone, location });
+    res.status(201).json({
+      userNum: result.insertId,
+      userName,
+      userEmail,
+      userPw,
+      userinfo,
+      userImg
+    });
   } catch (err) {
     console.error("유저 등록 실패:", err);
     res.status(500).send("서버 에러");

@@ -3,19 +3,19 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const pool = require("./config/db");
 const lessonRoutes = require("./routes/lessonRoutes"); 
-const reservationRoutes = require("./routes/reservationRoutes");
+
 const userRoutes = require("./routes/userRoutes");
-const instructorRoutes = require("./routes/instructorRoutes");
+
 dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/reservations", reservationRoutes);
+
 app.use("/api/users", userRoutes);
 
 app.use("/api/lessons", lessonRoutes);
-app.use("/api/instructors", instructorRoutes);
+
 
 app.get("/test-db", async (req, res) => {
   try {
