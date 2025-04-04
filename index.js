@@ -13,8 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/login", loginRoutes);
 app.use("/api/users", userRoutes);
-
 app.use("/api/lessons", lessonRoutes);
+
 
 
 app.get("/test-db", async (req, res) => {
