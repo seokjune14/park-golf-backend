@@ -5,13 +5,13 @@ const pool = require("./config/db");
 const lessonRoutes = require("./routes/lessonRoutes"); 
 
 const userRoutes = require("./routes/userRoutes");
-
+const loginRoutes = require("./routes/loginRoutes");
 dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/login", loginRoutes);
 app.use("/api/users", userRoutes);
 
 app.use("/api/lessons", lessonRoutes);
