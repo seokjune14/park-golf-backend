@@ -1,7 +1,7 @@
 const pool = require("../config/db");
 const bcrypt = require("bcrypt");
 
-// 로그인 컨트롤러
+// 로그인 컨트롤러//
 const loginUser = async (req, res) => {
   // 클라이언트에서 보내는 데이터 키와 일치시킵니다.
   const { userEmail, userPw } = req.body;
