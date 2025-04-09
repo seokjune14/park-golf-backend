@@ -1,5 +1,38 @@
 const pool = require("../config/db");
 
+// 회원가입 처리
+const createUser = async (req, res) => {
+  const { userName, userEmail, userPw, userinfo, userImg } = req.body;
+
+  try {
+    console.log("📥 회원가입 요청:", req.body);
+
+    const [result] = await pool.query(
+      "INSERT INTO users (userName, userEmail, userPw, userinfo, userImg) VALUES (?, ?, ?, ?, ?)",
+      [userName, userEmail, userPw, userinfo, userImg]
+    );
+
+    res.status(201).json({
+      userNum: result.insertId,
+      userName,
+      userEmail,
+      userinfo,
+      userImg,
+    });
+  } catch (err) {
+    console.error("❌ 유저 등록 실패:", err);
+
+    if (err.code === "ER_DUP_ENTRY") {
+      return res.status(409).json({ message: "이미 등록된 이메일입니다." });
+    }
+
+    res.status(500).json({
+      message: "서버 에러",
+      error: err.message,
+    });
+  }
+};
+
 // 유저 목록 조회
 const getUsers = async (req, res) => {
   try {
@@ -7,30 +40,11 @@ const getUsers = async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error("유저 조회 실패:", err);
-    res.status(500).send("서버 에러");
+    res.status(500).json({ message: "서버 에러" });
   }
 };
 
-// 유저 등록
-const createUser = async (req, res) => {
-  const { userName, userEmail, userPw, userinfo, userImg } = req.body;
-  try {
-    const [result] = await pool.query(
-      "INSERT INTO users (userName, userEmail, userPw, userinfo, userImg) VALUES (?, ?, ?, ?, ?)",
-      [userName, userEmail, userPw, userinfo, userImg]
-    );
-    res.status(201).json({
-      userNum: result.insertId,
-      userName,
-      userEmail,
-      userPw,
-      userinfo,
-      userImg
-    });
-  } catch (err) {
-    console.error("유저 등록 실패:", err);
-    res.status(500).send("서버 에러");
-  }
+module.exports = {
+  getUsers,
+  createUser,
 };
-
-module.exports = { getUsers, createUser };

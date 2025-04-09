@@ -12,7 +12,11 @@ const loginUser = async (req, res) => {
   }
 
   try {
+
     // userEmail로 사용자 조회 (users 테이블 기준)
+
+    // 이메일과 비밀번호가 일치하는 사용자를 조회합니다.
+
     const [rows] = await pool.query(
       "SELECT * FROM users WHERE userEmail = ?",
       [userEmail]
